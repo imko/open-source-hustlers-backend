@@ -1,4 +1,4 @@
-package com.opensourcehustlers.opensourcehustlersbackend.service;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
 import java.time.Instant;
 import java.util.stream.Collectors;

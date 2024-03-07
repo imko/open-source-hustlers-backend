@@ -1,7 +1,7 @@
-package com.opensourcehustlers.opensourcehustlersbackend.service;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
-import com.opensourcehustlers.opensourcehustlersbackend.model.SecurityUser;
-import com.opensourcehustlers.opensourcehustlersbackend.repository.UserRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.SecurityUser;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,10 +1,5 @@
-package com.opensourcehustlers.opensourcehustlersbackend.service;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
-import com.opensourcehustlers.opensourcehustlersbackend.dto.LoginResponseDTO;
-import com.opensourcehustlers.opensourcehustlersbackend.model.Role;
-import com.opensourcehustlers.opensourcehustlersbackend.model.User;
-import com.opensourcehustlers.opensourcehustlersbackend.repository.RoleRepository;
-import com.opensourcehustlers.opensourcehustlersbackend.repository.UserRepository;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;

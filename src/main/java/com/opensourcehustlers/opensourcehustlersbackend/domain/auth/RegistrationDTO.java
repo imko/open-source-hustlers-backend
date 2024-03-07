@@ -1,4 +1,4 @@
-package com.opensourcehustlers.opensourcehustlersbackend.dto;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

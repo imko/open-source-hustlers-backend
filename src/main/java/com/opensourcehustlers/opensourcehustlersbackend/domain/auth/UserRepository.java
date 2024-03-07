@@ -1,6 +1,5 @@
-package com.opensourcehustlers.opensourcehustlersbackend.repository;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
-import com.opensourcehustlers.opensourcehustlersbackend.model.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

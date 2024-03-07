@@ -1,9 +1,9 @@
-package com.opensourcehustlers.opensourcehustlersbackend.controller;
+package com.opensourcehustlers.opensourcehustlersbackend.web.auth;
 
-import com.opensourcehustlers.opensourcehustlersbackend.dto.LoginResponseDTO;
-import com.opensourcehustlers.opensourcehustlersbackend.dto.RegistrationDTO;
-import com.opensourcehustlers.opensourcehustlersbackend.model.User;
-import com.opensourcehustlers.opensourcehustlersbackend.service.AuthenticationService;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.LoginResponseDTO;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.RegistrationDTO;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.User;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

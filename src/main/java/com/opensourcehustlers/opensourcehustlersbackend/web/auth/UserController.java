@@ -1,4 +1,4 @@
-package com.opensourcehustlers.opensourcehustlersbackend.controller;
+package com.opensourcehustlers.opensourcehustlersbackend.web.auth;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

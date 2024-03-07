@@ -1,4 +1,4 @@
-package com.opensourcehustlers.opensourcehustlersbackend.model;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
 import java.util.Collection;
 import lombok.AccessLevel;

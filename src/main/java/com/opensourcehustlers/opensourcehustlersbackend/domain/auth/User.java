@@ -1,4 +1,4 @@
-package com.opensourcehustlers.opensourcehustlersbackend.model;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,9 +1,9 @@
 package com.opensourcehustlers.opensourcehustlersbackend;
 
-import com.opensourcehustlers.opensourcehustlersbackend.model.Role;
-import com.opensourcehustlers.opensourcehustlersbackend.model.User;
-import com.opensourcehustlers.opensourcehustlersbackend.repository.RoleRepository;
-import com.opensourcehustlers.opensourcehustlersbackend.repository.UserRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.Role;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.User;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.RoleRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.UserRepository;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.boot.CommandLineRunner;
