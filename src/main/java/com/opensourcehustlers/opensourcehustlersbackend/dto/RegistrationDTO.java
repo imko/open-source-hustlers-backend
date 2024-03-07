@@ -1,2 +1,12 @@
-package com.opensourcehustlers.opensourcehustlersbackend.dto;public class RegistrationDTO {
+package com.opensourcehustlers.opensourcehustlersbackend.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class RegistrationDTO {
+
+  private String username;
+  private String password;
 }

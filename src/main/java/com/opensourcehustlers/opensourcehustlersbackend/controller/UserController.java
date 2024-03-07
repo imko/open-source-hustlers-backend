@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/api/users")
+@RequestMapping(path = "/v1/api/users", produces = "application/json")
 @CrossOrigin("*") // TODO: Remove later.
 public class UserController {
 
