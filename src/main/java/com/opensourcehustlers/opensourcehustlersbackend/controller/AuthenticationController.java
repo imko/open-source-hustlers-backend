@@ -1,5 +1,6 @@
 package com.opensourcehustlers.opensourcehustlersbackend.controller;
 
+import com.opensourcehustlers.opensourcehustlersbackend.dto.LoginResponseDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.dto.RegistrationDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.model.User;
 import com.opensourcehustlers.opensourcehustlersbackend.service.AuthenticationService;
@@ -21,5 +22,10 @@ public class AuthenticationController {
   @PostMapping("/register")
   public User register(@RequestBody RegistrationDTO data) {
     return authenticationService.register(data.getUsername(), data.getPassword());
+  }
+
+  @PostMapping("/login")
+  public LoginResponseDTO login(@RequestBody RegistrationDTO data) {
+    return authenticationService.login(data.getUsername(), data.getPassword());
   }
 }
