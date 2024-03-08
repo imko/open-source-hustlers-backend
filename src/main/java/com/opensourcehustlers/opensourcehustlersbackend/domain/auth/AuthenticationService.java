@@ -48,6 +48,8 @@ public class AuthenticationService {
 
     User user = userRepository.save(userToCreate);
 
+    log.info("{}", user);
+
     return UserResponseDTO.builder()
         .userId(user.getId())
         .displayName(user.getDisplayName())
@@ -86,6 +88,8 @@ public class AuthenticationService {
             .skills(user.getSkills())
             .lastActiveDate(Instant.now())
             .build();
+
+    log.info("{}", user);
 
     return AuthenticationResponseDTO.builder()
         .userResponseDTO(userResponseDTO)

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.Skill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Builder
 @Data
@@ -31,6 +33,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
   @Id
