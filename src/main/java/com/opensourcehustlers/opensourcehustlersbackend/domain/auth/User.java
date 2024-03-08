@@ -1,21 +1,23 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import java.util.Set;
+import jakarta.validation.constraints.NotNull;
+import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "users")
@@ -30,18 +32,31 @@ public class User {
   private Long id;
 
   @Column(unique = true)
-  private String username;
+  @JsonProperty("display_name")
+  private String displayName;
 
   @Column(unique = true)
   private String email;
 
   private String password;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "roles_users",
-      joinColumns = {@JoinColumn(name = "user_id")},
-      inverseJoinColumns = {@JoinColumn(name = "role_id")}
-  )
-  private Set<Role> roles;
+  private boolean enabled;
+
+  @NotNull(message = "user role must be provided")
+  @Enumerated(EnumType.STRING)
+  @JsonProperty("user_role")
+  private UserRole userRole;
+
+  @JsonProperty("last_active_date")
+  private Instant lastActiveDate;
+
+  @CreatedDate
+  @JsonProperty("created_date")
+  private Instant createdDate;
+
+  @LastModifiedDate
+  @JsonProperty("last_modified_date")
+  private Instant lastModifiedDate;
+
+  private int version;
 }

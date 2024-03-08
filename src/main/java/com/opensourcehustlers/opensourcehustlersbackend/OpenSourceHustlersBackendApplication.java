@@ -1,11 +1,8 @@
 package com.opensourcehustlers.opensourcehustlersbackend;
 
-import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.Role;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.User;
-import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.RoleRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.UserRepository;
-import java.util.HashSet;
-import java.util.Set;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.UserRole;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,29 +17,25 @@ public class OpenSourceHustlersBackendApplication {
   }
 
   @Bean
-  public CommandLineRunner run(
-      RoleRepository roleRepository,
-      UserRepository userRepository,
-      PasswordEncoder passwordEncoder) {
+  public CommandLineRunner run(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     return args -> {
-      if (roleRepository.findByAuthority("ADMIN").isPresent()) {
-        return;
-      }
-
-      Role adminRole = roleRepository.save(Role.builder().authority("ADMIN").build());
-      Role userRole = roleRepository.save(Role.builder().authority("USER").build());
-
-      Set<Role> roles = new HashSet<>();
-      roles.add(adminRole);
-
       User admin =
           User.builder()
               .email("admin@admin.com")
-              .username("admin_user")
+              .displayName("admin")
+              .userRole(UserRole.ADMIN)
               .password(passwordEncoder.encode("password"))
-              .roles(roles)
               .build();
+      User user =
+          User.builder()
+              .email("user@user.com")
+              .displayName("user")
+              .userRole(UserRole.USER)
+              .password(passwordEncoder.encode("password"))
+              .build();
+
       userRepository.save(admin);
+      userRepository.save(user);
     };
   }
 }

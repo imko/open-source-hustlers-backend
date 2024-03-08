@@ -1,8 +1,11 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.InvalidUserCredentialsException;
+import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserAlreadyExistsException;
+import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserNotFoundException;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,36 +16,73 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class AuthenticationService {
 
   private final UserRepository userRepository;
-  private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
   private final AuthenticationManager authenticationManager;
-  private final TokenService tokenService;
+  private final JwtService jwtService;
 
-  public User register(String username, String password) {
-    String encodedPassword = passwordEncoder.encode(password);
-    Role userRole = roleRepository.findByAuthority("USER").get();
-    Set<Role> roles = new HashSet<>();
+  /* Registers a user with USER role. */
+  public UserResponseDTO register(RegistrationRequestDTO data) {
+    if (userRepository.existsByEmail(data.getEmail())) {
+      throw new UserAlreadyExistsException(data.getEmail());
+    }
 
-    roles.add(userRole);
-    User user =
+    User userToCreate =
         User.builder()
-            .email(username)
-            .username(username)
-            .password(encodedPassword)
-            .roles(roles)
+            .displayName(data.getEmail())
+            .email(data.getEmail())
+            .password(passwordEncoder.encode(data.getPassword()))
+            .enabled(true)
+            .userRole(UserRole.USER)
+            .lastActiveDate(Instant.now())
             .build();
 
-    return userRepository.save(user);
+    User user = userRepository.save(userToCreate);
+
+    return UserResponseDTO.builder()
+        .userId(user.getId())
+        .displayName(user.getDisplayName())
+        .email(user.getEmail())
+        .enabled(user.isEnabled())
+        .userRole(user.getUserRole())
+        .lastActiveDate(user.getLastActiveDate())
+        .build();
   }
 
-  public LoginResponseDTO login(String username, String password) {
+  public AuthenticationResponseDTO login(AuthenticationRequestDTO data) {
+    User user =
+        userRepository
+            .findByEmail(data.getEmail())
+            .orElseThrow(() -> new UserNotFoundException(data.getEmail()));
+
+    if (!passwordEncoder.matches(data.getPassword(), user.getPassword())) {
+      throw new InvalidUserCredentialsException();
+    }
+
     Authentication authentication =
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(username, password));
-    String token = tokenService.generateJwt(authentication);
-    return new LoginResponseDTO(userRepository.findByEmail(username).get(), token);
+            new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword()));
+
+    String accessToken = jwtService.generateJwtAccessToken(authentication);
+    String refreshToken = jwtService.generateJwtRefreshToken(authentication);
+
+    UserResponseDTO userResponseDTO =
+        UserResponseDTO.builder()
+            .userId(user.getId())
+            .displayName(user.getDisplayName())
+            .email(user.getEmail())
+            .enabled(user.isEnabled())
+            .userRole(user.getUserRole())
+            .lastActiveDate(user.getLastActiveDate())
+            .build();
+
+    return AuthenticationResponseDTO.builder()
+        .userResponseDTO(userResponseDTO)
+        .accessToken(accessToken)
+        .refreshToken(refreshToken)
+        .build();
   }
 }

@@ -1,31 +1,36 @@
 package com.opensourcehustlers.opensourcehustlersbackend.web.auth;
 
-import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.LoginResponseDTO;
-import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.RegistrationDTO;
-import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.User;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationRequestDTO;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationResponseDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationService;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.RegistrationRequestDTO;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.UserResponseDTO;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/v1/api/auth", produces = "application/json")
 @AllArgsConstructor
-@CrossOrigin("*") // TODO: Remove later.
 public class AuthenticationController {
 
   private final AuthenticationService authenticationService;
 
   @PostMapping("/register")
-  public User register(@RequestBody RegistrationDTO data) {
-    return authenticationService.register(data.getUsername(), data.getPassword());
+  @ResponseStatus(HttpStatus.CREATED)
+  public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody RegistrationRequestDTO data) {
+    return ResponseEntity.ok(authenticationService.register(data));
   }
 
   @PostMapping("/login")
-  public LoginResponseDTO login(@RequestBody RegistrationDTO data) {
-    return authenticationService.login(data.getUsername(), data.getPassword());
+  public ResponseEntity<AuthenticationResponseDTO> login(
+      @Valid @RequestBody AuthenticationRequestDTO data) {
+    return ResponseEntity.ok(authenticationService.login(data));
   }
 }

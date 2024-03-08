@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.opensourcehustlers.opensourcehustlersbackend.utils.RsaKeyProperties;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -55,6 +59,19 @@ public class SecurityConfig {
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .build();
+  }
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration corsConfiguration = new CorsConfiguration();
+    corsConfiguration.setAllowedOrigins(List.of("*"));
+    corsConfiguration.setAllowedMethods(List.of("*"));
+
+    UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource =
+        new UrlBasedCorsConfigurationSource();
+    urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+    return urlBasedCorsConfigurationSource;
   }
 
   @Bean
@@ -91,6 +108,7 @@ public class SecurityConfig {
     DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
     daoAuthenticationProvider.setUserDetailsService(userDetailsService);
     daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+
     return new ProviderManager(daoAuthenticationProvider);
   }
 
