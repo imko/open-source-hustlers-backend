@@ -4,7 +4,7 @@ import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.Authenticati
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationResponseDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationService;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.RegistrationRequestDTO;
-import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.UserResponseDTO;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserResponseDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

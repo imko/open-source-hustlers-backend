@@ -1,5 +1,6 @@
-package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.user;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.SecurityUser;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

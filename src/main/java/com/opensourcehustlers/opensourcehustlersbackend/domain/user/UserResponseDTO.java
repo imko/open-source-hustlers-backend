@@ -1,10 +1,12 @@
-package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.Skill;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
@@ -30,6 +32,8 @@ public class UserResponseDTO {
   @NotNull(message = "User role must be provided")
   @JsonProperty("user_role")
   private UserRole userRole;
+
+  private List<Skill> skills;
 
   @JsonProperty("last_active_date")
   private Instant lastActiveDate;

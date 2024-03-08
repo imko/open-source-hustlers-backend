@@ -1,10 +1,16 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.User;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserResponseDTO;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserRole;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.InvalidUserCredentialsException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserAlreadyExistsException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserNotFoundException;
 import java.time.Instant;
+import java.util.Collections;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 @Transactional
 @Service
+@Slf4j
 public class AuthenticationService {
 
   private final UserRepository userRepository;
@@ -35,6 +42,7 @@ public class AuthenticationService {
             .password(passwordEncoder.encode(data.getPassword()))
             .enabled(true)
             .userRole(UserRole.USER)
+            .skills(Collections.emptyList())
             .lastActiveDate(Instant.now())
             .build();
 
@@ -46,6 +54,7 @@ public class AuthenticationService {
         .email(user.getEmail())
         .enabled(user.isEnabled())
         .userRole(user.getUserRole())
+        .skills(user.getSkills())
         .lastActiveDate(user.getLastActiveDate())
         .build();
   }
@@ -74,7 +83,8 @@ public class AuthenticationService {
             .email(user.getEmail())
             .enabled(user.isEnabled())
             .userRole(user.getUserRole())
-            .lastActiveDate(user.getLastActiveDate())
+            .skills(user.getSkills())
+            .lastActiveDate(Instant.now())
             .build();
 
     return AuthenticationResponseDTO.builder()
