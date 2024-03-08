@@ -1,4 +1,4 @@
-package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.user;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

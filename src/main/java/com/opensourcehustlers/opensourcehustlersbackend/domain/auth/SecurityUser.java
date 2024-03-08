@@ -1,5 +1,6 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.User;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;

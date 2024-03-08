@@ -1,5 +1,6 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,16 +8,14 @@ import lombok.Data;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Builder
 @Data
 @AllArgsConstructor
 @Service
-public class UserService implements UserDetailsService {
+public class SecurityUserService implements UserDetailsService {
 
-  private final PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
 
   @Override

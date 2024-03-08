@@ -1,16 +1,16 @@
-package com.opensourcehustlers.opensourcehustlersbackend.web.auth;
+package com.opensourcehustlers.opensourcehustlersbackend.web.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(path = "/v1/api/users", produces = "application/json")
+@RequestMapping(path = "/v1/api/admin", produces = "application/json")
 @RestController
-public class UserController {
+public class AdminController {
   // TODO: Remove this controller after testing role based authorization.
 
   @GetMapping
-  public String helloUser() {
-    return "Hello, this is user access level!";
+  public String helloAdmin() {
+    return "Hello, this is admin level access!";
   }
 }
