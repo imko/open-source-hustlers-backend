@@ -5,7 +5,6 @@ import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserAlrea
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserNotFoundException;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,10 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@Transactional
 @AllArgsConstructor
-@Slf4j
+@Transactional
+@Service
 public class AuthenticationService {
 
   private final UserRepository userRepository;

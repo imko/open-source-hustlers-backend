@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-@Entity
-@Table(name = "users")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@Entity
+@Table(name = "users")
 public class User {
 
   @Id

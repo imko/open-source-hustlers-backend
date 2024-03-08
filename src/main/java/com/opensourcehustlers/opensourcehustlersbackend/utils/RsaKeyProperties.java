@@ -7,8 +7,8 @@ import java.security.interfaces.RSAPublicKey;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-@Component
 @Data
+@Component
 public class RsaKeyProperties {
 
   private RSAPublicKey rsaPublicKey;

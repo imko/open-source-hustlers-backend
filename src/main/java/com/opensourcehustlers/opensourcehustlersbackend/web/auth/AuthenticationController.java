@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping(path = "/v1/api/auth", produces = "application/json")
 @AllArgsConstructor
+@RequestMapping(path = "/v1/api/auth", produces = "application/json")
+@RestController
 public class AuthenticationController {
 
   private final AuthenticationService authenticationService;
