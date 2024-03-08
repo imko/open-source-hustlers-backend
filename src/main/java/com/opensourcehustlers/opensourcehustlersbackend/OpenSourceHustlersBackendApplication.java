@@ -23,6 +23,7 @@ public class OpenSourceHustlersBackendApplication {
           User.builder()
               .email("admin@admin.com")
               .displayName("admin")
+              .enabled(true)
               .userRole(UserRole.ADMIN)
               .password(passwordEncoder.encode("password"))
               .build();
@@ -30,6 +31,7 @@ public class OpenSourceHustlersBackendApplication {
           User.builder()
               .email("user@user.com")
               .displayName("user")
+              .enabled(true)
               .userRole(UserRole.USER)
               .password(passwordEncoder.encode("password"))
               .build();
