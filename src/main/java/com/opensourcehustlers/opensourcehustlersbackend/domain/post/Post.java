@@ -1,9 +1,6 @@
-package com.opensourcehustlers.opensourcehustlersbackend.domain.user;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.Skill;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -11,20 +8,19 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -33,49 +29,46 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity
-@Table(name = "users")
+@Table(name = "posts")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class Post {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(unique = true)
-  @JsonProperty("display_name")
-  private String displayName;
+  @NotBlank(message = "Title must be provided")
+  private String title;
 
-  @Column(unique = true)
-  private String email;
+  @NotBlank(message = "Description must be provided")
+  private String description;
 
-  private String password;
+  @NotBlank(message = "Content must be provided")
+  private String content;
 
-  private boolean enabled;
+  @NotBlank(message = "GitHub URL must be provided")
+  @JsonProperty("github_url")
+  private String githubUrl;
 
-  @NotNull(message = "user role must be provided")
+  @NotNull(message = "Post visibility must be provided")
   @Enumerated(EnumType.STRING)
-  @JsonProperty("user_role")
-  private UserRole userRole;
+  private PostVisibility visibility;
 
-  @ManyToMany
-  @JoinTable(
-      name = "skills_users",
-      joinColumns = @JoinColumn(name = "skill_id"),
-      inverseJoinColumns = @JoinColumn(name = "user_id"))
-  @JsonBackReference
-  private List<Skill> skills;
-
-  @JsonProperty("last_active_date")
-  private Instant lastActiveDate;
+  @CreatedBy
+  @JsonProperty("created_by")
+  private String createdBy;
 
   @CreatedDate
   @JsonProperty("created_date")
   private Instant createdDate;
 
+  @LastModifiedBy
+  @JsonProperty("last_modified_by")
+  private String lastModifiedBy;
+
   @LastModifiedDate
   @JsonProperty("last_modified_date")
   private Instant lastModifiedDate;
 
-  @Version
-  private int version;
+  @Version private int version;
 }

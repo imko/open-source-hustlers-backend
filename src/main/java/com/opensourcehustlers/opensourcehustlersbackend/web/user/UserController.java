@@ -35,7 +35,7 @@ public class UserController {
   @PutMapping("/{id}")
   public ResponseEntity<UserResponseDTO> put(@PathVariable("id") Long id, @Valid @RequestBody
       UserEditRequestDTO data) {
-    return ResponseEntity.ok(userService.put(id, data));
+    return ResponseEntity.ok(userService.save(id, data));
   }
 
   @DeleteMapping("/{id}")

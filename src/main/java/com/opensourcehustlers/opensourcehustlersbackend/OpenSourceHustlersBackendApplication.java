@@ -1,5 +1,6 @@
 package com.opensourcehustlers.opensourcehustlersbackend;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.Skill;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.SkillRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.user.User;
@@ -24,6 +25,7 @@ public class OpenSourceHustlersBackendApplication {
   public CommandLineRunner run(
       UserRepository userRepository,
       SkillRepository skillRepository,
+      PostRepository postRepository,
       PasswordEncoder passwordEncoder) {
     return args -> {
       Skill frontend = Skill.builder().name("frontend").color("#332211").build();

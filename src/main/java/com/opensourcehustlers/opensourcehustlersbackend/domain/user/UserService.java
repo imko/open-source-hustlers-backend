@@ -49,7 +49,7 @@ public class UserService {
         .orElseThrow(() -> new UserNotFoundException(id));
   }
 
-  public UserResponseDTO put(Long id, UserEditRequestDTO data) {
+  public UserResponseDTO save(Long id, UserEditRequestDTO data) {
     return userRepository
         .findById(id)
         .map(
@@ -68,16 +68,16 @@ public class UserService {
                       .lastModifiedDate(existingUser.getLastModifiedDate())
                       .build();
 
-              var savedUser = userRepository.save(userToUpdate);
+              var updatedUser = userRepository.save(userToUpdate);
 
               return UserResponseDTO.builder()
-                  .userId(savedUser.getId())
-                  .displayName(savedUser.getDisplayName())
-                  .email(savedUser.getEmail())
-                  .enabled(savedUser.isEnabled())
-                  .userRole(savedUser.getUserRole())
-                  .skills(savedUser.getSkills())
-                  .lastActiveDate(savedUser.getLastActiveDate())
+                  .userId(updatedUser.getId())
+                  .displayName(updatedUser.getDisplayName())
+                  .email(updatedUser.getEmail())
+                  .enabled(updatedUser.isEnabled())
+                  .userRole(updatedUser.getUserRole())
+                  .skills(updatedUser.getSkills())
+                  .lastActiveDate(updatedUser.getLastActiveDate())
                   .build();
             })
         .orElseThrow(() -> new UserNotFoundException(id));
