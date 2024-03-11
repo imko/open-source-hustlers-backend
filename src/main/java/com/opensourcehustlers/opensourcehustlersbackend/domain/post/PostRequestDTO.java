@@ -1,8 +1,10 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,4 +27,6 @@ public class PostRequestDTO {
 
   @NotNull(message = "Post visibility must be provided")
   private PostVisibility visibility;
+
+  private List<Tag> tags;
 }

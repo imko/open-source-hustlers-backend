@@ -1,7 +1,7 @@
-package com.opensourcehustlers.opensourcehustlersbackend.domain.skill;
+package com.opensourcehustlers.opensourcehustlersbackend.domain.tag;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.opensourcehustlers.opensourcehustlersbackend.domain.user.User;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.post.Post;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,20 +21,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity
-@Table(name = "skills")
-public class Skill {
+@Table(name = "tags")
+public class Tag {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @NotBlank(message = "Skill name must be provided")
+  @NotBlank(message = "Tag name must be provided")
   private String name;
 
-  @NotBlank(message = "Skill color must be provided")
+  @NotBlank(message = "Tag color must be provided")
   private String color;
 
-  @ManyToMany(mappedBy = "skills")
+  @ManyToMany(mappedBy = "tags")
   @JsonBackReference
-  private List<User> users;
+  private List<Post> posts;
 }
