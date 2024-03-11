@@ -1,7 +1,9 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
 import java.time.Instant;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,6 +23,8 @@ public class PostResponseDTO {
   private String githubUrl;
 
   private PostVisibility visibility;
+
+  private List<Tag> tags;
 
   @JsonProperty("created_by")
   private String createdBy;

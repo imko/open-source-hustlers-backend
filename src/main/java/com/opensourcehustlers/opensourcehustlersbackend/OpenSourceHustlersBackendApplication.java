@@ -5,6 +5,8 @@ import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostReposito
 import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostVisibility;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.Skill;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.SkillRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.TagRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.user.User;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserRole;
@@ -28,6 +30,7 @@ public class OpenSourceHustlersBackendApplication {
       UserRepository userRepository,
       SkillRepository skillRepository,
       PostRepository postRepository,
+      TagRepository tagRepository,
       PasswordEncoder passwordEncoder) {
     return args -> {
       Skill frontend = Skill.builder().name("frontend").color("#332211").build();
@@ -62,6 +65,14 @@ public class OpenSourceHustlersBackendApplication {
       userRepository.save(admin);
       userRepository.save(user);
 
+      Tag java = Tag.builder().name("java").color("#efefef").build();
+      Tag typescript = Tag.builder().name("typescript").color("#fefefe").build();
+      Tag golang = Tag.builder().name("golang").color("#121232").build();
+
+      tagRepository.save(java);
+      tagRepository.save(typescript);
+      tagRepository.save(golang);
+
       Post p1 =
           Post.builder()
               .title("title 1")
@@ -69,6 +80,7 @@ public class OpenSourceHustlersBackendApplication {
               .content("content 1")
               .githubUrl("github url 1")
               .visibility(PostVisibility.PUBLIC)
+              .tags(List.of(java, typescript))
               .createdBy(admin.getEmail())
               .lastModifiedBy(admin.getEmail())
               .build();
@@ -79,6 +91,7 @@ public class OpenSourceHustlersBackendApplication {
               .content("content 2")
               .githubUrl("github url 2")
               .visibility(PostVisibility.PRIVATE)
+              .tags(List.of(golang))
               .createdBy(user.getEmail())
               .lastModifiedBy(user.getEmail())
               .build();

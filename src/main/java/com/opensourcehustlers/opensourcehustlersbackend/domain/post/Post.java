@@ -1,6 +1,8 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -8,11 +10,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,6 +59,14 @@ public class Post {
   @NotNull(message = "Post visibility must be provided")
   @Enumerated(EnumType.STRING)
   private PostVisibility visibility;
+
+  @ManyToMany
+  @JoinTable(
+      name = "posts_tags",
+      joinColumns = @JoinColumn(name = "tag_id"),
+      inverseJoinColumns = @JoinColumn(name = "post_id"))
+  @JsonBackReference
+  private List<Tag> tags;
 
   @CreatedBy
   @JsonProperty("created_by")

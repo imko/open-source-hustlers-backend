@@ -29,6 +29,7 @@ public class PostService {
                     .content(post.getContent())
                     .githubUrl(post.getGithubUrl())
                     .visibility(post.getVisibility())
+                    .tags(post.getTags())
                     .createdBy(post.getCreatedBy())
                     .createdDate(post.getCreatedDate())
                     .lastModifiedDate(post.getLastModifiedDate())
@@ -48,6 +49,7 @@ public class PostService {
                     .content(post.getContent())
                     .githubUrl(post.getGithubUrl())
                     .visibility(post.getVisibility())
+                    .tags(post.getTags())
                     .createdBy(post.getCreatedBy())
                     .createdDate(post.getCreatedDate())
                     .lastModifiedDate(post.getLastModifiedDate())
@@ -63,6 +65,7 @@ public class PostService {
             .content(data.getContent())
             .githubUrl(data.getGithubUrl())
             .visibility(data.getVisibility())
+            .tags(data.getTags())
             .build();
     var savedPost = postRepository.save(post);
 
@@ -73,6 +76,7 @@ public class PostService {
         .content(savedPost.getContent())
         .githubUrl(savedPost.getGithubUrl())
         .visibility(savedPost.getVisibility())
+        .tags(savedPost.getTags())
         .createdBy(savedPost.getCreatedBy())
         .createdDate(savedPost.getCreatedDate())
         .lastModifiedDate(savedPost.getLastModifiedDate())
@@ -98,6 +102,7 @@ public class PostService {
                       .content(data.getContent())
                       .githubUrl(data.getGithubUrl())
                       .visibility(data.getVisibility())
+                      .tags(data.getTags())
                       .createdBy(existingPost.getCreatedBy())
                       .createdDate(existingPost.getCreatedDate())
                       .lastModifiedBy(existingPost.getLastModifiedBy())
@@ -114,6 +119,7 @@ public class PostService {
                   .content(updatedPost.getContent())
                   .githubUrl(updatedPost.getGithubUrl())
                   .visibility(updatedPost.getVisibility())
+                  .tags(updatedPost.getTags())
                   .createdBy(updatedPost.getCreatedBy())
                   .createdDate(updatedPost.getCreatedDate())
                   .lastModifiedDate(updatedPost.getLastModifiedDate())
