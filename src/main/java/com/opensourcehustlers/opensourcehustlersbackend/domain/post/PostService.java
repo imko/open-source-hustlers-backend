@@ -1,16 +1,22 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
+import com.opensourcehustlers.opensourcehustlersbackend.exception.post.InvalidUserPostException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.PostNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @AllArgsConstructor
 @Service
 public class PostService {
 
   private final PostRepository postRepository;
+  private final AuditorAware<String> auditorAware;
 
   public List<PostResponseDTO> findAll() {
     return postRepository.findAll().stream()
@@ -74,10 +80,16 @@ public class PostService {
   }
 
   public PostResponseDTO save(Long id, PostRequestDTO data) {
+    String userEmail = auditorAware.getCurrentAuditor().orElse("anonymous");
+
     return postRepository
         .findById(id)
         .map(
             existingPost -> {
+              if (!existingPost.getCreatedBy().equals(userEmail)) {
+                throw new InvalidUserPostException(userEmail, existingPost.getId());
+              }
+
               var postToUpdate =
                   Post.builder()
                       .id(existingPost.getId())
@@ -111,6 +123,13 @@ public class PostService {
   }
 
   public void deleteById(Long id) {
+    String userEmail = auditorAware.getCurrentAuditor().orElse("anonymous");
+    Optional<Post> optionalPost = postRepository.findById(id);
+
+    if (optionalPost.isPresent() && !optionalPost.get().getCreatedBy().equals(userEmail)) {
+      throw new InvalidUserPostException(userEmail, id);
+    }
+
     postRepository.deleteById(id);
   }
 }

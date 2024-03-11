@@ -1,5 +1,6 @@
 package com.opensourcehustlers.opensourcehustlersbackend.web.post;
 
+import com.opensourcehustlers.opensourcehustlersbackend.exception.post.InvalidUserPostException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.PostNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,12 @@ public class PostControllerAdvice {
   @ExceptionHandler(PostNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public Map<String, String> postNotFoundExceptionHandler(PostNotFoundException ex) {
+    return toErrorMap(ex);
+  }
+
+  @ExceptionHandler(InvalidUserPostException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  public Map<String, String> invalidUserPostExceptionHandler(InvalidUserPostException ex) {
     return toErrorMap(ex);
   }
 
