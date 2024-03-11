@@ -1,5 +1,8 @@
 package com.opensourcehustlers.opensourcehustlersbackend;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.post.Post;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostVisibility;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.Skill;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.skill.SkillRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.user.User;
@@ -24,6 +27,7 @@ public class OpenSourceHustlersBackendApplication {
   public CommandLineRunner run(
       UserRepository userRepository,
       SkillRepository skillRepository,
+      PostRepository postRepository,
       PasswordEncoder passwordEncoder) {
     return args -> {
       Skill frontend = Skill.builder().name("frontend").color("#332211").build();
@@ -57,6 +61,30 @@ public class OpenSourceHustlersBackendApplication {
 
       userRepository.save(admin);
       userRepository.save(user);
+
+      Post p1 =
+          Post.builder()
+              .title("title 1")
+              .description("description 1")
+              .content("content 1")
+              .githubUrl("github url 1")
+              .visibility(PostVisibility.PUBLIC)
+              .createdBy(admin.getEmail())
+              .lastModifiedBy(admin.getEmail())
+              .build();
+      Post p2 =
+          Post.builder()
+              .title("title 2")
+              .description("description 2")
+              .content("content 2")
+              .githubUrl("github url 2")
+              .visibility(PostVisibility.PRIVATE)
+              .createdBy(user.getEmail())
+              .lastModifiedBy(user.getEmail())
+              .build();
+
+      postRepository.save(p1);
+      postRepository.save(p2);
     };
   }
 }
