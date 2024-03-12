@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -18,8 +21,36 @@ public class PostService {
   private final PostRepository postRepository;
   private final AuditorAware<String> auditorAware;
 
-  public List<PostResponseDTO> findAll() {
-    return postRepository.findAll().stream()
+  public List<PostResponseDTO> findAll(
+      Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+    Sort sort = Sort.by(sortBy);
+
+    if (sortOrder.equalsIgnoreCase("desc")) {
+      sort = Sort.by(sortBy).descending();
+    }
+
+    if (pageSize == null) {
+      return postRepository.findAll(sort).stream()
+          .map(
+              post ->
+                  PostResponseDTO.builder()
+                      .id(post.getId())
+                      .title(post.getTitle())
+                      .description(post.getDescription())
+                      .content(post.getContent())
+                      .githubUrl(post.getGithubUrl())
+                      .visibility(post.getVisibility())
+                      .tags(post.getTags())
+                      .createdBy(post.getCreatedBy())
+                      .createdDate(post.getCreatedDate())
+                      .lastModifiedDate(post.getLastModifiedDate())
+                      .build())
+          .collect(Collectors.toList());
+    }
+
+    Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+
+    return postRepository.findAll(pageable).stream()
         .map(
             post ->
                 PostResponseDTO.builder()

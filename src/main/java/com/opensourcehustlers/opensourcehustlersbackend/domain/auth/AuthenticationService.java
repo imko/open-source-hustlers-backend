@@ -95,4 +95,12 @@ public class AuthenticationService {
         .refreshToken(refreshToken)
         .build();
   }
+
+  public void logout(LogoutRequestDTO data) {
+    User user =
+        userRepository
+            .findByEmailAndId(data.getEmail(), data.getId())
+            .orElseThrow(() -> new UserNotFoundException(data.getEmail()));
+    // TODO: Revoke all tokens related to this user.
+  }
 }
