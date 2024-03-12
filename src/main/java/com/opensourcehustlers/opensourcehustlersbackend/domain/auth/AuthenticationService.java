@@ -33,6 +33,10 @@ public class AuthenticationService {
       throw new UserAlreadyExistsException(data.getEmail());
     }
 
+    if (!data.getPassword().equals(data.getConfirmPassword())) {
+      throw new InvalidUserCredentialsException();
+    }
+
     User userToCreate =
         User.builder()
             .displayName(data.getEmail())
