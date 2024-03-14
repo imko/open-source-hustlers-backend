@@ -1,5 +1,6 @@
 package com.opensourcehustlers.opensourcehustlersbackend.web.post;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostOptionResponseDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostRequestDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostResponseDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostService;
@@ -38,6 +39,11 @@ public class PostController {
   @GetMapping("/{id}")
   public ResponseEntity<PostResponseDTO> findById(@PathVariable("id") Long id) {
     return ResponseEntity.ok(postService.findById(id));
+  }
+
+  @GetMapping("/options")
+  public ResponseEntity<PostOptionResponseDTO> findAllPostOptions() {
+    return ResponseEntity.ok(postService.findAllPostOptions());
   }
 
   @PostMapping

@@ -3,6 +3,7 @@ package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -50,6 +51,7 @@ public class Post {
   private String description;
 
   @NotBlank(message = "Content must be provided")
+  @Column(columnDefinition = "TEXT")
   private String content;
 
   @NotBlank(message = "GitHub URL must be provided")

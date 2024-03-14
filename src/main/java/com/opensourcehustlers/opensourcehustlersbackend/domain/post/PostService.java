@@ -1,5 +1,7 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.TagRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.InvalidUserPostException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.PostNotFoundException;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class PostService {
 
   private final PostRepository postRepository;
+  private final TagRepository tagRepository;
   private final AuditorAware<String> auditorAware;
 
   public List<PostResponseDTO> findAll(
@@ -86,6 +89,12 @@ public class PostService {
                     .lastModifiedDate(post.getLastModifiedDate())
                     .build())
         .orElseThrow(() -> new PostNotFoundException(id));
+  }
+
+  public PostOptionResponseDTO findAllPostOptions() {
+    List<Tag> tags = tagRepository.findAll();
+    List<PostVisibility> visibilities = List.of(PostVisibility.PUBLIC, PostVisibility.PRIVATE);
+    return PostOptionResponseDTO.builder().tags(tags).visibilities(visibilities).build();
   }
 
   public PostResponseDTO save(PostRequestDTO data) {
