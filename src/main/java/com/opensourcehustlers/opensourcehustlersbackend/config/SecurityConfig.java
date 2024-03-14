@@ -4,6 +4,8 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,9 +25,12 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return httpSecurity
         .csrf(AbstractHttpConfigurer::disable)
+        .cors(Customizer.withDefaults())
         .authorizeHttpRequests(
             auth ->
                 auth.requestMatchers("/v1/api/auth/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/v1/api/posts/**")
                     .permitAll()
                     .requestMatchers("/v1/api/admin/**")
                     .hasRole("ADMIN")
@@ -45,6 +50,8 @@ public class SecurityConfig {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
     corsConfiguration.setAllowedOrigins(List.of("*"));
     corsConfiguration.setAllowedMethods(List.of("*"));
+    corsConfiguration.setAllowedHeaders(List.of("*"));
+    corsConfiguration.setExposedHeaders(List.of("*"));
 
     UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource =
         new UrlBasedCorsConfigurationSource();

@@ -33,6 +33,10 @@ public class AuthenticationService {
       throw new UserAlreadyExistsException(data.getEmail());
     }
 
+    if (!data.getPassword().equals(data.getConfirmPassword())) {
+      throw new InvalidUserCredentialsException();
+    }
+
     User userToCreate =
         User.builder()
             .displayName(data.getEmail())
@@ -90,5 +94,13 @@ public class AuthenticationService {
         .accessToken(accessToken)
         .refreshToken(refreshToken)
         .build();
+  }
+
+  public void logout(LogoutRequestDTO data) {
+    User user =
+        userRepository
+            .findByEmailAndId(data.getEmail(), data.getId())
+            .orElseThrow(() -> new UserNotFoundException(data.getEmail()));
+    // TODO: Revoke all tokens related to this user.
   }
 }

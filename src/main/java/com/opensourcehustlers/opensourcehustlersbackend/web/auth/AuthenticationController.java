@@ -3,6 +3,7 @@ package com.opensourcehustlers.opensourcehustlersbackend.web.auth;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationRequestDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationResponseDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.AuthenticationService;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.LogoutRequestDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.auth.RegistrationRequestDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserResponseDTO;
 import jakarta.validation.Valid;
@@ -32,5 +33,10 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponseDTO> login(
       @Valid @RequestBody AuthenticationRequestDTO data) {
     return ResponseEntity.ok(authenticationService.login(data));
+  }
+
+  @PostMapping("/logout")
+  public void logout(@Valid @RequestBody LogoutRequestDTO data) {
+    authenticationService.logout(data);
   }
 }

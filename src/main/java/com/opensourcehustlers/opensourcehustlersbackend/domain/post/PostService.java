@@ -1,5 +1,7 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.TagRepository;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.InvalidUserPostException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.PostNotFoundException;
 import java.util.List;
@@ -8,6 +10,9 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -16,10 +21,39 @@ import org.springframework.stereotype.Service;
 public class PostService {
 
   private final PostRepository postRepository;
+  private final TagRepository tagRepository;
   private final AuditorAware<String> auditorAware;
 
-  public List<PostResponseDTO> findAll() {
-    return postRepository.findAll().stream()
+  public List<PostResponseDTO> findAll(
+      Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+    Sort sort = Sort.by(sortBy);
+
+    if (sortOrder.equalsIgnoreCase("desc")) {
+      sort = Sort.by(sortBy).descending();
+    }
+
+    if (pageSize == null) {
+      return postRepository.findAll(sort).stream()
+          .map(
+              post ->
+                  PostResponseDTO.builder()
+                      .id(post.getId())
+                      .title(post.getTitle())
+                      .description(post.getDescription())
+                      .content(post.getContent())
+                      .githubUrl(post.getGithubUrl())
+                      .visibility(post.getVisibility())
+                      .tags(post.getTags())
+                      .createdBy(post.getCreatedBy())
+                      .createdDate(post.getCreatedDate())
+                      .lastModifiedDate(post.getLastModifiedDate())
+                      .build())
+          .collect(Collectors.toList());
+    }
+
+    Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+
+    return postRepository.findAll(pageable).stream()
         .map(
             post ->
                 PostResponseDTO.builder()
@@ -55,6 +89,12 @@ public class PostService {
                     .lastModifiedDate(post.getLastModifiedDate())
                     .build())
         .orElseThrow(() -> new PostNotFoundException(id));
+  }
+
+  public PostOptionResponseDTO findAllPostOptions() {
+    List<Tag> tags = tagRepository.findAll();
+    List<PostVisibility> visibilities = List.of(PostVisibility.PUBLIC, PostVisibility.PRIVATE);
+    return PostOptionResponseDTO.builder().tags(tags).visibilities(visibilities).build();
   }
 
   public PostResponseDTO save(PostRequestDTO data) {

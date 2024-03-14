@@ -1,23 +1,19 @@
 package com.opensourcehustlers.opensourcehustlersbackend.domain.auth;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-public class RegistrationRequestDTO {
+public class LogoutRequestDTO {
 
   @Email(message = "Email must be in a correct format")
   @NotBlank(message = "Email must be provided")
   private String email;
 
-  @NotBlank(message = "Password must be provided")
-  private String password;
-
-  @NotBlank(message = "Confirm password must be provided")
-  @JsonProperty("confirm_password")
-  private String confirmPassword;
+  @NotNull(message = "User ID must be provided")
+  private Long id;
 }
