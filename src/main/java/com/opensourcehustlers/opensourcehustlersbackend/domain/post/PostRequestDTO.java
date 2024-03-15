@@ -12,6 +12,9 @@ import lombok.Data;
 @Data
 public class PostRequestDTO {
 
+  @JsonProperty("user_id")
+  private Long userId;
+
   @NotBlank(message = "Title must be provided")
   private String title;
 
