@@ -2,6 +2,9 @@ package com.opensourcehustlers.opensourcehustlersbackend.domain.post;
 
 import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.Tag;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.tag.TagRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.User;
+import com.opensourcehustlers.opensourcehustlersbackend.domain.user.UserRepository;
+import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserNotFoundException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.InvalidUserPostException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.post.PostNotFoundException;
 import java.util.List;
@@ -22,6 +25,7 @@ public class PostService {
 
   private final PostRepository postRepository;
   private final TagRepository tagRepository;
+  private final UserRepository userRepository;
   private final AuditorAware<String> auditorAware;
 
   public List<PostResponseDTO> findAll(
@@ -124,14 +128,17 @@ public class PostService {
   }
 
   public PostResponseDTO save(Long id, PostRequestDTO data) {
-    String userEmail = auditorAware.getCurrentAuditor().orElse("anonymous");
-
     return postRepository
         .findById(id)
         .map(
             existingPost -> {
-              if (!existingPost.getCreatedBy().equals(userEmail)) {
-                throw new InvalidUserPostException(userEmail, existingPost.getId());
+              User user =
+                  userRepository
+                      .findById(data.getUserId())
+                      .orElseThrow(() -> new UserNotFoundException(data.getUserId()));
+
+              if (!existingPost.getCreatedBy().equals(user.getEmail())) {
+                throw new InvalidUserPostException(user.getEmail(), existingPost.getId());
               }
 
               var postToUpdate =

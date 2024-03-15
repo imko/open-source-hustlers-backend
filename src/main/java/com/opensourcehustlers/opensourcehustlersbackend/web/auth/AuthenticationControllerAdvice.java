@@ -1,5 +1,6 @@
 package com.opensourcehustlers.opensourcehustlersbackend.web.auth;
 
+import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.InvalidTokenException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.InvalidUserAuthorityException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.InvalidUserCredentialsException;
 import com.opensourcehustlers.opensourcehustlersbackend.exception.auth.UserAlreadyExistsException;
@@ -39,6 +40,12 @@ public class AuthenticationControllerAdvice {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public Map<String, String> invalidUserCredentialsExceptionHandler(
       InvalidUserCredentialsException ex) {
+    return toErrorMap(ex);
+  }
+
+  @ExceptionHandler(InvalidTokenException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public Map<String, String> invalidTokenExceptionHandler(InvalidTokenException ex) {
     return toErrorMap(ex);
   }
 
