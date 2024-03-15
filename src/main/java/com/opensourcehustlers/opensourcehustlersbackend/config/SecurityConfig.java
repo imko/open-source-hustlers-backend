@@ -45,6 +45,7 @@ public class SecurityConfig {
         .build();
   }
 
+  // TODO: Confirm CORS after development.
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
