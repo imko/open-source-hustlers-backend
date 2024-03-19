@@ -45,7 +45,10 @@ Our goal is to promote best practices in open source contribution and provide a 
 
 ### Authentication 
 
-For this project, I chose to use OAuth2 Resource Server 
+For this project, I chose to use OAuth2 Resource Server to implement stateless authentication and authorization using JWT. 
+
+![image](https://github.com/imko/open-source-hustlers-backend/assets/46854966/7068dbf9-61f8-416d-aac5-4fb37f47548e)
+
 
 ## Tech Stacks 
 - Java 17
