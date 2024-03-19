@@ -82,6 +82,5 @@ public class User {
   @JsonProperty("last_modified_date")
   private Instant lastModifiedDate;
 
-  @Version
-  private int version;
+  @Version private int version;
 }
