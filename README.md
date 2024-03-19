@@ -45,16 +45,22 @@ Our goal is to promote best practices in open source contribution and provide a 
 
 ### Authentication 
 
-For this project, I chose to use OAuth2 Resource Server to implement stateless authentication and authorization using JWT. 
-
 ![image](https://github.com/imko/open-source-hustlers-backend/assets/46854966/7068dbf9-61f8-416d-aac5-4fb37f47548e)
+
+For this project, I opted for OAuth 2.0 Resource Server to enable stateless authentication and authorization using JWT. OAuth 2.0 Resource Server offers a robust and standardized approach to handling JWT authentication and authorization, ensuring compliance with security standards.
+
+Upon successful authentication, the server issues a short-lived access token (1 hour) along with a refresh token (7 days), enabling users to access REST APIs on the resource server by including the access token in the HTTP header. The resource server validates the access token for each request and grants access to resources if valid; otherwise, it returns an unauthorized access error.
+
+To manage token expiration, users can utilize the refresh token to obtain a new access token. Typically, the client automatically fetches the refresh token when the current access token expires, reducing the need for frequent user logins.
+
+![image](https://github.com/imko/open-source-hustlers-backend/assets/46854966/89bb5823-2f9b-4e37-b575-0e2bac772dc0)
 
 
 ## Tech Stacks 
 - Java 17
 - Spring Boot 3
-- Spring Security 6
-- Postgres (WIP: Currently H2)
+- Spring Security 6 - OAuth 2.0 Resource Server 
+- Postgres (WIP: Currently H2) 
 - Hibernate 
 
 If interested, also check out the frontend project built with Next JS: [OpenSourceHustlers (Frontend)](https://github.com/imko/open-source-hustlers-frontend)
