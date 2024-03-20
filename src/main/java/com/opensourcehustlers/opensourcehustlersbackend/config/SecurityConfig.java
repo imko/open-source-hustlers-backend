@@ -28,7 +28,7 @@ public class SecurityConfig {
         .cors(Customizer.withDefaults())
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers("/v1/api/auth/**")
+                auth.requestMatchers("/v1/api/auth/**", "/v3/api-docs/**", "/swagger-ui/**")
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/v1/api/posts/**")
                     .permitAll()

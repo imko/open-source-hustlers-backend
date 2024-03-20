@@ -4,6 +4,9 @@ import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostOptionRe
 import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostRequestDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostResponseDTO;
 import com.opensourcehustlers.opensourcehustlersbackend.domain.post.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Posts")
 @AllArgsConstructor
 @RequestMapping(path = "/v1/api/posts", produces = "application/json")
 @RestController
@@ -46,18 +50,30 @@ public class PostController {
     return ResponseEntity.ok(postService.findAllPostOptions());
   }
 
+  @Operation(
+      summary = "Create a new post",
+      description = "Create a new post",
+      security = {@SecurityRequirement(name = "bearerToken")})
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<PostResponseDTO> create(@Valid @RequestBody PostRequestDTO data) {
     return ResponseEntity.ok(postService.save(data));
   }
 
+  @Operation(
+      summary = "Update a post",
+      description = "Update an existing post or create a new post",
+      security = {@SecurityRequirement(name = "bearerToken")})
   @PutMapping("/{id}")
   public ResponseEntity<PostResponseDTO> update(
       @PathVariable("id") Long id, @Valid @RequestBody PostRequestDTO data) {
     return ResponseEntity.ok(postService.save(id, data));
   }
 
+  @Operation(
+      summary = "Delete a post",
+      description = "Delete a post",
+      security = {@SecurityRequirement(name = "bearerToken")})
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(@PathVariable("id") Long id) {

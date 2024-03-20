@@ -47,13 +47,12 @@ public class Token {
   @JsonProperty("token_type")
   @Enumerated(EnumType.STRING)
   private TokenType tokenType;
+
   private boolean expired;
   private boolean revoked;
 
   @JsonProperty("expired_date")
   private Instant expiredDate;
 
-  @Version
-  private int version;
-
+  @Version private int version;
 }
